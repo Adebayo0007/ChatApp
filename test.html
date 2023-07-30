@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebSocket Testing</title>
+</head>
+<body>
+  <h1>WebSocket Testing</h1>
+  <div id="chat-messages"></div>
+
+  <script>
+    const authToken = 's%3ArLPNNBFwdWGamQDrEGjCUoy7X0wdj5J_.suX7Wqv8Hc36pwi6UX4ve8r4031Jy3zmyVB5uTxfAos'; // Replace with your session data from Thunderclient
+
+    const socket = new WebSocket('ws://127.0.0.1:8081', {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        // Other headers if required for authentication
+      },
+    });
+
+    socket.onopen = () => {
+      console.log('WebSocket connection established!');
+    };
+
+    socket.onmessage = (event) => {
+      const messageDiv = document.createElement('div');
+      messageDiv.textContent = event.data;
+      document.getElementById('chat-messages').appendChild(messageDiv);
+    };
+
+    socket.onclose = (event) => {
+      console.log('WebSocket connection closed:', event);
+    };
+
+    function sendMessage() {
+      const message = document.getElementById('message').value;
+      socket.send(message);
+    }
+  </script>
+</body>
+</html>
